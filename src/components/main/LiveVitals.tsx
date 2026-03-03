@@ -65,7 +65,7 @@ const getEcgStatus = (classification: string) => {
   return 'elevated';
 };
 
-export const LiveVitals = ({ vitals, sleep, activity, ecg, hasActivePatient = false, isLoading = false }: LiveVitalsProps) => {
+export const LiveVitals = ({ vitals, sleep, activity, ecg, /* hasActivePatient = false, */ isLoading = false }: LiveVitalsProps) => {
   // if (!hasActivePatient) {
   //   return (
   //     <Tile title="Live Vitals Monitoring" icon={Activity}>
