@@ -1,0 +1,114 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.emergency-video-panel {
+  position: fixed;
+  bottom: $spacing-lg;
+  right: $spacing-lg;
+  width: 400px;
+  background-color: $gray-800;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-lg;
+  overflow: hidden;
+  z-index: 1000;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  &--minimized {
+    width: auto;
+  }
+
+  &--dragging {
+    user-select: none;
+    opacity: 0.9;
+  }
+
+  &__header {
+    @include flex(row, space-between, center);
+    padding: $spacing-sm $spacing-md;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  &__title {
+    font-size: $font-sm;
+    font-weight: $font-medium;
+    color: white;
+  }
+
+  &__controls {
+    @include flex(row, flex-end, center, $spacing-xs);
+  }
+
+  &__control-btn {
+    @include flex(row, center, center);
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    border-radius: $radius-sm;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    &--close:hover {
+      background-color: $danger;
+      color: white;
+    }
+  }
+
+  &__content {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    background-color: #1a1a1a;
+  }
+
+  &__remote {
+    position: absolute;
+    inset: 0;
+    @include flex(row, center, center);
+  }
+
+  &__local {
+    position: absolute;
+    bottom: $spacing-sm;
+    right: $spacing-sm;
+    width: 120px;
+    aspect-ratio: 4 / 3;
+    border-radius: $radius-md;
+    overflow: hidden;
+    border: 2px solid white;
+    box-shadow: $shadow-md;
+    background-color: #2a2a2a;
+  }
+
+  &__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__placeholder {
+    @include flex(row, center, center);
+    position: absolute;
+    inset: 0;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: $font-sm;
+    text-align: center;
+    padding: $spacing-md;
+
+    &--small {
+      font-size: $font-xs;
+    }
+  }
+}

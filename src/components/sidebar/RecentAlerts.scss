@@ -1,0 +1,214 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.recent-alerts {
+  padding: $spacing-md 0;
+
+  &__label {
+    display: block;
+    font-size: $font-xs;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: $spacing-md;
+  }
+
+  &__empty {
+    @include flex(row, flex-start, center, $spacing-sm);
+    padding: $spacing-sm 0;
+    font-size: $font-xs;
+    color: rgba(255, 255, 255, 0.4);
+
+    svg {
+      opacity: 0.5;
+    }
+  }
+
+  &__spinner {
+    animation: spin 1s linear infinite;
+  }
+
+  &__list {
+    @include flex(column, flex-start, stretch, $spacing-sm);
+  }
+
+  &__item {
+    @include flex(row, flex-start, flex-start, $spacing-sm);
+    padding: $spacing-sm;
+    border-radius: $radius-md;
+
+    &.fall {
+      background-color: rgba($danger, 0.15);
+    }
+
+    &.heart_rate {
+      background-color: rgba($warning, 0.15);
+    }
+
+    &.emergency {
+      background-color: rgba($danger, 0.2);
+    }
+  }
+
+  &__icon {
+    @include flex-center;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    border-radius: $radius-sm;
+
+    .fall & {
+      background-color: $danger;
+      color: white;
+    }
+
+    .heart_rate & {
+      background-color: $warning;
+      color: white;
+    }
+
+    .emergency & {
+      background-color: $danger;
+      color: white;
+    }
+  }
+
+  &__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__header {
+    @include flex-between;
+    margin-bottom: 2px;
+  }
+
+  &__title {
+    font-size: $font-xs;
+    font-weight: $font-semibold;
+  }
+
+  &__time {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  &__location {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  // Escalated alarms styles
+  &--has-escalations {
+    .recent-alerts__label {
+      @include flex(row, flex-start, center, $spacing-xs);
+      color: $danger;
+      font-weight: $font-semibold;
+    }
+
+    .recent-alerts__label-icon {
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+  }
+
+  &__item--escalated {
+    border: 1px solid rgba($danger, 0.5);
+    animation: escalation-flash 2s ease-in-out infinite;
+
+    &.recent-alerts__item--high {
+      background-color: rgba($warning, 0.2);
+      border-color: rgba($warning, 0.6);
+    }
+
+    &.recent-alerts__item--critical {
+      background-color: rgba($danger, 0.25);
+      border-color: rgba($danger, 0.7);
+      animation: critical-flash 1s ease-in-out infinite;
+    }
+  }
+
+  &__icon--escalated {
+    background-color: $danger !important;
+    color: white !important;
+    animation: pulse 1s ease-in-out infinite;
+  }
+
+  &__escalation-info {
+    @include flex(row, flex-start, center, $spacing-xs);
+    margin-top: $spacing-xs;
+  }
+
+  &__tier {
+    font-size: 9px;
+    font-weight: $font-semibold;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: $radius-sm;
+    background-color: rgba($danger, 0.3);
+    color: $danger;
+  }
+
+  &__retry {
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: $radius-sm;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  &__acknowledge {
+    @include flex(row, flex-start, center, $spacing-xs);
+    margin-top: $spacing-sm;
+    padding: $spacing-xs $spacing-sm;
+    font-size: 10px;
+    font-weight: $font-semibold;
+    color: white;
+    background-color: rgba($success, 0.8);
+    border: none;
+    border-radius: $radius-sm;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: $success;
+    }
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes escalation-flash {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+@keyframes critical-flash {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.01);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

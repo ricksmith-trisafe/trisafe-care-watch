@@ -1,0 +1,150 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.contacts-list {
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__title {
+    font-size: $font-sm;
+    font-weight: $font-semibold;
+    color: $text-primary;
+  }
+
+  &__add {
+    @include flex-center;
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    border: none;
+    border-radius: $radius-sm;
+    cursor: pointer;
+    color: $text-muted;
+    transition: all $transition-fast;
+
+    &:hover {
+      color: $primary;
+      background-color: rgba($primary, 0.1);
+    }
+  }
+
+  &__items {
+    @include flex(column, flex-start, stretch, $spacing-sm);
+  }
+
+  &__item {
+    @include flex(row, flex-start, flex-start, $spacing-sm);
+    padding: $spacing-sm;
+    background-color: $gray-50;
+    border-radius: $radius-md;
+    transition: background-color $transition-fast;
+
+    &:hover {
+      background-color: $gray-100;
+    }
+  }
+
+  &__avatar {
+    @include flex-center;
+    position: relative;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    background-color: $primary;
+    color: white;
+    font-size: $font-xs;
+    border-radius: $radius-full;
+
+    &.available {
+      background-color: $success;
+    }
+  }
+
+  &__status {
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 2px solid $gray-50;
+
+    &.online {
+      background-color: $success;
+    }
+
+    &.offline {
+      background-color: $gray-400;
+    }
+  }
+
+  &__info {
+    flex: 1;
+    min-width: 0;
+    @include flex(column, flex-start, flex-start, 2px);
+  }
+
+  &__name {
+    font-size: $font-sm;
+    font-weight: $font-medium;
+    color: $text-primary;
+    @include text-truncate;
+  }
+
+  &__relationship {
+    font-size: $font-xs;
+    color: $text-secondary;
+  }
+
+  &__phone {
+    font-size: $font-xs;
+    color: $text-muted;
+  }
+
+  &__schedule {
+    font-size: 10px;
+    color: $text-muted;
+    font-style: italic;
+  }
+
+  &__call {
+    @include flex-center;
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    background-color: $success;
+    color: white;
+    border: none;
+    border-radius: $radius-full;
+    cursor: pointer;
+    transition: background-color $transition-fast;
+
+    svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    &:hover {
+      background-color: $success-dark;
+    }
+  }
+
+  &--empty {
+    .contacts-list__header {
+      margin-bottom: $spacing-xs;
+    }
+  }
+
+  &__empty-state {
+    @include flex(row, flex-start, center, $spacing-sm);
+    padding: $spacing-sm;
+    color: $text-muted;
+    font-size: $font-xs;
+
+    svg {
+      color: $gray-300;
+    }
+  }
+}

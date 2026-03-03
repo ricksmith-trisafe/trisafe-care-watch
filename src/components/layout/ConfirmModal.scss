@@ -1,0 +1,105 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.confirm-modal {
+  @include flex(column, flex-start, center, $spacing-md);
+  background-color: $bg-primary;
+  border-radius: $radius-lg;
+  padding: $spacing-xl;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: $shadow-lg;
+  text-align: center;
+
+  &__overlay {
+    @include flex(row, center, center);
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: $z-modal;
+  }
+
+  &__icon {
+    @include flex(row, center, center);
+    width: 48px;
+    height: 48px;
+    border-radius: $radius-full;
+
+    &--warning {
+      background-color: rgba($warning, 0.1);
+      color: $warning;
+    }
+
+    &--danger {
+      background-color: rgba($danger, 0.1);
+      color: $danger;
+    }
+  }
+
+  &__title {
+    font-size: $font-lg;
+    font-weight: $font-semibold;
+    color: $text-primary;
+    margin: 0;
+  }
+
+  &__message {
+    font-size: $font-md;
+    color: $text-secondary;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  &__actions {
+    @include flex(row, center, center, $spacing-md);
+    width: 100%;
+    margin-top: $spacing-md;
+
+    &--single {
+      justify-content: center;
+
+      .confirm-modal__btn {
+        flex: 0 0 auto;
+        min-width: 120px;
+      }
+    }
+  }
+
+  &__btn {
+    @include button-base;
+    flex: 1;
+    padding: $spacing-sm $spacing-lg;
+    font-size: $font-md;
+    font-weight: $font-medium;
+    border-radius: $radius-md;
+
+    &--cancel {
+      background-color: $gray-100;
+      color: $text-primary;
+
+      &:hover {
+        background-color: $gray-200;
+      }
+    }
+
+    &--confirm {
+      color: white;
+    }
+
+    &--warning {
+      background-color: $warning;
+
+      &:hover {
+        background-color: $warning-dark;
+      }
+    }
+
+    &--danger {
+      background-color: $danger;
+
+      &:hover {
+        background-color: $danger-dark;
+      }
+    }
+  }
+}

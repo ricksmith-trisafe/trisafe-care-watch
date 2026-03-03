@@ -1,0 +1,89 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+// Content-specific styles (header/container handled by Tile component)
+.patient-details {
+  &__section {
+    @include flex(column, flex-start, stretch, $spacing-sm);
+  }
+
+  &__section-title {
+    font-size: $font-xs;
+    font-weight: $font-semibold;
+    color: $text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__divider {
+    height: 1px;
+    background-color: $border-light;
+    margin: $spacing-md 0;
+  }
+
+  &__row {
+    @include flex(row, flex-start, flex-start, $spacing-sm);
+    padding: $spacing-xs 0;
+
+    &--empty {
+      .patient-details__value--empty {
+        font-style: italic;
+      }
+    }
+
+    &--address {
+      align-items: flex-start;
+    }
+  }
+
+  &__label {
+    @include flex(row, flex-start, center, $spacing-xs);
+    font-size: $font-sm;
+    color: $text-muted;
+    min-width: 110px;
+    flex-shrink: 0;
+
+    svg {
+      color: $gray-400;
+    }
+  }
+
+  &__value {
+    font-size: $font-sm;
+    color: $text-primary;
+    word-break: break-word;
+
+    &--name {
+      font-weight: $font-semibold;
+      font-size: $font-md;
+    }
+
+    &--link {
+      color: $primary;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    &--empty {
+      color: $text-muted;
+    }
+  }
+
+  &__age {
+    color: $text-muted;
+    margin-left: $spacing-xs;
+  }
+
+  &__address {
+    @include flex(column, flex-start, flex-start, 2px);
+
+    span {
+      font-size: $font-sm;
+      color: $text-primary;
+    }
+  }
+}

@@ -1,0 +1,116 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.left-sidebar {
+  @include flex(column, flex-start, stretch, 0);
+  @include custom-scrollbar;
+  width: $sidebar-width;
+  height: 100%;
+  padding: $spacing-md;
+  background-color: $sidebar-bg;
+  color: $sidebar-text;
+  overflow-y: auto;
+
+  &__emergency-call {
+    padding: $spacing-sm 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  &__emergency-call-btn {
+    @include flex(row, center, center, $spacing-sm);
+    @include button-primary;
+    width: 100%;
+    padding: $spacing-sm $spacing-md;
+    background-color: $danger;
+    color: white;
+    font-weight: $font-medium;
+
+    &:hover:not(:disabled) {
+      background-color: $danger-dark;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  &__outbound {
+    @include flex(column, flex-start, stretch, $spacing-sm);
+    padding: $spacing-md 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  &__outbound-label {
+    font-size: $font-xs;
+    font-weight: $font-medium;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__outbound-input {
+    position: relative;
+  }
+
+  &__phone-input {
+    @include input-base;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-family: monospace;
+    font-size: $font-md;
+    letter-spacing: 0.5px;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+      font-family: monospace;
+    }
+
+    &:focus {
+      border-color: $primary;
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &--error {
+      border-color: $danger;
+
+      &:focus {
+        border-color: $danger;
+      }
+    }
+  }
+
+  &__phone-error {
+    @include flex(row, flex-start, center, $spacing-xs);
+    color: $danger;
+    font-size: $font-xs;
+
+    svg {
+      flex-shrink: 0;
+    }
+  }
+
+  &__call-btn {
+    @include flex(row, center, center, $spacing-sm);
+    @include button-primary;
+    width: 100%;
+    padding: $spacing-sm $spacing-md;
+    background-color: $success;
+
+    &:hover:not(:disabled) {
+      background-color: $success-dark;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      background-color: $gray-500;
+    }
+  }
+}

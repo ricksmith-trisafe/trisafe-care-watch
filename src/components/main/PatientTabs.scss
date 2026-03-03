@@ -1,0 +1,90 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.patient-tabs {
+  @include flex(row, flex-start, center, 0);
+  background-color: $gray-200;
+  border-radius: $radius-md $radius-md 0 0;
+  overflow-x: auto;
+  padding: $spacing-xs;
+  gap: $spacing-xs;
+
+  &__tab {
+    @include flex(row, flex-start, center, $spacing-sm);
+    position: relative;
+    padding: $spacing-sm ($spacing-xl + 8px) $spacing-sm $spacing-md;
+    background-color: $gray-100;
+    border-radius: $radius-sm;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all $transition-fast;
+    white-space: nowrap;
+    opacity: 0.7;
+
+    &:hover {
+      background-color: $gray-50;
+      opacity: 0.85;
+    }
+
+    &.active {
+      background-color: white;
+      border-color: $primary;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      opacity: 1;
+
+      .patient-tabs__name {
+        color: $primary;
+        font-weight: $font-semibold;
+      }
+    }
+  }
+
+  &__name {
+    font-size: $font-sm;
+    font-weight: $font-medium;
+    color: $text-primary;
+  }
+
+  &__indicator {
+    @include status-dot($success);
+    flex-shrink: 0;
+  }
+
+  &__close {
+    @include flex-center;
+    position: absolute;
+    right: $spacing-xs;
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    border: none;
+    border-radius: $radius-sm;
+    cursor: pointer;
+    color: $text-muted;
+    transition: all $transition-fast;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+      color: $text-primary;
+    }
+  }
+
+  &__add {
+    @include flex-center;
+    width: 24px;
+    height: 24px;
+    margin: $spacing-xs;
+    background: transparent;
+    border: 1px dashed $gray-400;
+    border-radius: $radius-sm;
+    cursor: pointer;
+    color: $text-muted;
+    transition: all $transition-fast;
+
+    &:hover {
+      border-color: $primary;
+      color: $primary;
+      background-color: rgba($primary, 0.05);
+    }
+  }
+}

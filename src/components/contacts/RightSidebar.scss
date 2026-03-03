@@ -1,0 +1,13 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.right-sidebar {
+  @include flex(column, flex-start, stretch, $spacing-md);
+  @include custom-scrollbar;
+  width: $sidebar-width;
+  height: 100%;
+  padding: $spacing-md;
+  background-color: $bg-primary;
+  border-left: 1px solid $border-color;
+  overflow-y: auto;
+}

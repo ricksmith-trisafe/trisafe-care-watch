@@ -1,0 +1,89 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.quick-actions {
+  padding: $spacing-md 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  &--disabled {
+    opacity: 0.5;
+  }
+
+  &__label {
+    display: block;
+    font-size: $font-xs;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: $spacing-sm;
+  }
+
+  &__buttons {
+    @include flex(column, flex-start, stretch, $spacing-sm);
+  }
+
+  &__btn {
+    @include flex(row, flex-start, center, $spacing-sm);
+    width: 100%;
+    padding: $spacing-sm $spacing-md;
+    border: none;
+    border-radius: $radius-md;
+    font-size: $font-sm;
+    font-weight: $font-medium;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    &--camera {
+      background-color: $primary;
+      color: white;
+
+      &:hover:not(:disabled) {
+        background-color: $primary-dark;
+      }
+    }
+
+    &--connected {
+      background-color: $success;
+
+      &:hover:not(:disabled) {
+        background-color: $success;
+      }
+    }
+
+    &--emergency {
+      background-color: $danger;
+      color: white;
+
+      &:hover:not(:disabled) {
+        background-color: $danger-dark;
+      }
+    }
+
+    &--warden {
+      background-color: $success;
+      color: white;
+
+      &:hover:not(:disabled) {
+        background-color: $success-dark;
+      }
+    }
+  }
+
+  &__spinner {
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

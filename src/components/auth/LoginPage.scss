@@ -1,0 +1,80 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.login-page {
+  @include flex-center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, $gray-800 0%, $gray-900 100%);
+
+  &__container {
+    width: 100%;
+    max-width: 400px;
+    padding: $spacing-xl;
+    background-color: $bg-primary;
+    border-radius: $radius-xl;
+    box-shadow: $shadow-lg;
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: $spacing-xl;
+  }
+
+  &__logo {
+    @include flex-center;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto $spacing-md;
+    background-color: $primary;
+    color: white;
+    border-radius: $radius-lg;
+  }
+
+  &__title {
+    font-size: $font-2xl;
+    font-weight: $font-bold;
+    color: $text-primary;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__subtitle {
+    font-size: $font-sm;
+    color: $text-secondary;
+  }
+
+  &__form {
+    @include flex(column, flex-start, stretch, $spacing-md);
+  }
+
+  &__error {
+    padding: $spacing-sm $spacing-md;
+    background-color: rgba($danger, 0.1);
+    border: 1px solid rgba($danger, 0.2);
+    border-radius: $radius-md;
+    color: $danger;
+    font-size: $font-sm;
+  }
+
+  &__field {
+    @include flex(column, flex-start, stretch, $spacing-xs);
+  }
+
+  &__label {
+    font-size: $font-sm;
+    font-weight: $font-medium;
+    color: $text-secondary;
+  }
+
+  &__input {
+    @include input-base;
+    padding: $spacing-md;
+  }
+
+  &__submit {
+    @include button-primary;
+    width: 100%;
+    padding: $spacing-md;
+    margin-top: $spacing-sm;
+    font-size: $font-md;
+  }
+}

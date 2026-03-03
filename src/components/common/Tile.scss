@@ -1,0 +1,107 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.tile {
+  background-color: $bg-primary;
+  border-radius: $radius-lg;
+  border: 1px solid $border-light;
+  overflow: hidden;
+
+  &__header {
+    @include flex(row, space-between, center);
+    padding: $spacing-md $spacing-lg;
+    background-color: $gray-50;
+    border-bottom: 1px solid $border-light;
+  }
+
+  &__header-left {
+    @include flex(row, flex-start, center, $spacing-sm);
+
+    svg {
+      color: $primary;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: $font-md;
+      font-weight: $font-semibold;
+      color: $text-primary;
+    }
+  }
+
+  &__actions {
+    @include flex(row, flex-end, center, $spacing-sm);
+  }
+
+  &__action-btn {
+    @include button-base;
+    @include flex(row, center, center, $spacing-xs);
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-xs;
+    font-weight: $font-medium;
+    color: $primary;
+    border-radius: $radius-md;
+    background-color: transparent;
+
+    &:hover {
+      background-color: rgba($primary, 0.1);
+    }
+  }
+
+  &__badge {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-xs;
+    font-weight: $font-medium;
+    border-radius: $radius-full;
+
+    &--green {
+      color: $success;
+      background-color: rgba($success, 0.1);
+    }
+
+    &--blue {
+      color: $primary;
+      background-color: rgba($primary, 0.1);
+    }
+
+    &--orange {
+      color: $warning;
+      background-color: rgba($warning, 0.1);
+    }
+
+    &--red {
+      color: $danger;
+      background-color: rgba($danger, 0.1);
+    }
+  }
+
+  &__content {
+    padding: $spacing-lg;
+
+    &--no-padding {
+      padding: 0;
+    }
+  }
+
+  &__empty-state {
+    @include flex(column, center, center, $spacing-sm);
+    padding: ($spacing-xl * 2);
+    text-align: center;
+
+    svg {
+      color: $gray-300;
+    }
+
+    p {
+      margin: 0;
+      font-size: $font-md;
+      font-weight: $font-medium;
+      color: $text-secondary;
+    }
+
+    span {
+      font-size: $font-sm;
+      color: $text-muted;
+    }
+  }
+}

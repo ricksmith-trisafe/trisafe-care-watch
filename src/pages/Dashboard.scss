@@ -1,0 +1,42 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.dashboard {
+  @include flex(column);
+  height: 100vh;
+  overflow: hidden;
+
+  &__content {
+    @include flex;
+    flex: 1;
+    overflow: hidden;
+  }
+}
+
+// Loading screen styles
+.loading-screen {
+  @include flex-center;
+  flex-direction: column;
+  gap: $spacing-md;
+  height: 100vh;
+  background-color: $bg-secondary;
+
+  p {
+    color: $text-secondary;
+  }
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid $border-color;
+  border-top-color: $primary;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

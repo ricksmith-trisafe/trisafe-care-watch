@@ -1,0 +1,67 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.quick-reference {
+  &__title {
+    font-size: $font-sm;
+    font-weight: $font-semibold;
+    color: $text-primary;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__items {
+    @include flex(column, flex-start, stretch, $spacing-xs);
+  }
+
+  &__item {
+    @include flex-between;
+    font-size: $font-sm;
+  }
+
+  &__label {
+    color: $text-secondary;
+  }
+
+  &__value {
+    font-weight: $font-medium;
+    color: $text-primary;
+
+    &--risk {
+      padding: 2px $spacing-sm;
+      border-radius: $radius-sm;
+      font-size: $font-xs;
+
+      &.low {
+        background-color: rgba($success, 0.1);
+        color: $success-dark;
+      }
+
+      &.medium {
+        background-color: rgba($warning, 0.1);
+        color: $warning-dark;
+      }
+
+      &.high {
+        background-color: rgba($danger, 0.1);
+        color: $danger;
+      }
+    }
+  }
+
+  &--empty {
+    .quick-reference__title {
+      margin-bottom: $spacing-xs;
+    }
+  }
+
+  &__empty-state {
+    @include flex(row, flex-start, center, $spacing-sm);
+    padding: $spacing-sm 0;
+    color: $text-muted;
+    font-size: $font-xs;
+
+    svg {
+      color: $gray-300;
+    }
+  }
+}

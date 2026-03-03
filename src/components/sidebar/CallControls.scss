@@ -1,0 +1,126 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.call-controls {
+  padding: $spacing-md 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  &__label {
+    display: block;
+    font-size: $font-xs;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: $spacing-md;
+  }
+
+  &__primary {
+    @include flex(row, flex-start, stretch, $spacing-sm);
+    margin-bottom: $spacing-sm;
+  }
+
+  &__secondary {
+    @include flex(row, flex-start, stretch, $spacing-sm);
+    margin-bottom: $spacing-sm;
+  }
+
+  &__actions {
+    @include flex(row, flex-start, stretch, $spacing-sm);
+  }
+
+  &__btn {
+    @include flex(column, center, center, 4px);
+    flex: 1;
+    padding: $spacing-sm;
+    border: none;
+    border-radius: $radius-md;
+    font-size: $font-xs;
+    font-weight: $font-medium;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    span {
+      font-size: 10px;
+    }
+
+    &--answer {
+      background-color: $success;
+      color: white;
+
+      &:hover:not(:disabled) {
+        background-color: $success-dark;
+      }
+    }
+
+    &--end {
+      background-color: $danger;
+      color: white;
+
+      &:hover:not(:disabled) {
+        background-color: $danger-dark;
+      }
+    }
+
+    &--hold {
+      background-color: $warning;
+      color: white;
+
+      &:hover:not(:disabled) {
+        background-color: $warning-dark;
+      }
+
+      &.active {
+        background-color: $warning-dark;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+    }
+
+    &--secondary {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+
+      &:hover:not(:disabled) {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      &.active {
+        background-color: $danger;
+      }
+    }
+
+    &--action {
+      background-color: $primary;
+      color: white;
+
+      &:hover:not(:disabled) {
+        background-color: $primary-dark;
+      }
+    }
+
+    &--available {
+      background-color: $success;
+      color: white;
+      flex-direction: row;
+      gap: $spacing-sm;
+
+      span {
+        font-size: $font-sm;
+      }
+
+      &:hover:not(:disabled) {
+        background-color: $success-dark;
+      }
+    }
+  }
+
+  &__after-call {
+    margin-top: $spacing-md;
+    padding-top: $spacing-md;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}

@@ -1,0 +1,107 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+// Content-specific styles (header/container handled by Tile component)
+.call-notes {
+  &__input-container {
+    margin-bottom: $spacing-md;
+  }
+
+  &__input {
+    @include input-base;
+    resize: vertical;
+    min-height: 48px;
+  }
+
+  &__list {
+    @include flex(column, flex-start, stretch, $spacing-sm);
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  &__item {
+    @include flex(row, flex-start, flex-start, $spacing-sm);
+    padding: $spacing-sm;
+    background-color: $gray-50;
+    border-radius: $radius-md;
+    border-left: 3px solid $primary;
+    position: relative;
+
+    &:has(.call-notes__item-badge.current) {
+      border-left-color: $success;
+      background-color: rgba($success, 0.05);
+    }
+
+    &:has(.call-notes__item-badge.emergency) {
+      border-left-color: $danger;
+      background-color: rgba($danger, 0.05);
+    }
+
+    &-icon {
+      @include flex-center;
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      background-color: rgba($primary, 0.1);
+      border-radius: $radius-sm;
+      color: $primary;
+
+      svg {
+        width: 12px;
+        height: 12px;
+      }
+    }
+
+    &-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    &-header {
+      @include flex(row, flex-start, center, $spacing-sm);
+      margin-bottom: $spacing-xs;
+    }
+
+    &-author {
+      font-size: $font-sm;
+      font-weight: $font-semibold;
+      color: $text-primary;
+    }
+
+    &-time {
+      font-size: $font-xs;
+      color: $text-muted;
+    }
+
+    &-text {
+      font-size: $font-sm;
+      color: $text-secondary;
+      line-height: 1.5;
+    }
+
+    &-badge {
+      position: absolute;
+      top: $spacing-sm;
+      right: $spacing-sm;
+      padding: 1px $spacing-xs;
+      font-size: 9px;
+      font-weight: $font-medium;
+      border-radius: $radius-sm;
+
+      &.current {
+        background-color: rgba($success, 0.1);
+        color: $success-dark;
+      }
+
+      &.routine {
+        background-color: rgba($gray-500, 0.1);
+        color: $gray-600;
+      }
+
+      &.emergency {
+        background-color: rgba($danger, 0.1);
+        color: $danger;
+      }
+    }
+  }
+}

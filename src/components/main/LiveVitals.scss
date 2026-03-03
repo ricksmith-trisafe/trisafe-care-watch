@@ -1,0 +1,131 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+// Content-specific styles (header/container handled by Tile component)
+.live-vitals {
+  // Make tile fill its grid cell and content stretch
+  &.tile {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .tile__content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: $spacing-md;
+    flex: 1;
+  }
+
+  &__card {
+    @include flex(row, flex-start, center, $spacing-sm);
+    padding: $spacing-md;
+    border-radius: $radius-md;
+    background-color: $gray-50;
+    position: relative;
+    min-height: 0;
+
+
+    &.normal {
+      background-color: rgba($success, 0.05);
+    }
+
+    &.high, &.elevated {
+      background-color: rgba($danger, 0.05);
+    }
+
+    &.low {
+      background-color: rgba($warning, 0.05);
+    }
+
+    &-icon {
+      @include flex-center;
+      margin-left: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: $radius-md;
+
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      &.heart {
+        background-color: rgba($danger, 0.1);
+        color: $danger;
+      }
+
+      &.sleep {
+        background-color: rgba($info, 0.1);
+        color: $info;
+      }
+
+      &.ecg {
+        background-color: rgba($danger, 0.1);
+        color: $danger;
+      }
+
+      &.activity {
+        background-color: rgba($success, 0.1);
+        color: $success;
+      }
+    }
+
+    &-content {
+      @include flex(column);
+      flex: 1;
+      align-items: center;
+    }
+
+    &-value {
+      font-size: $font-xl;
+      font-weight: $font-bold;
+      color: $text-primary;
+      line-height: 1;
+    }
+
+    &-label {
+      font-size: $font-xs;
+      color: $text-secondary;
+      margin-top: 2px;
+    }
+
+    &-sublabel {
+      font-size: $font-xs;
+      color: $text-muted;
+    }
+  }
+
+  &__status-badge {
+    position: absolute;
+    top: $spacing-sm;
+    right: $spacing-sm;
+    padding: 2px $spacing-sm;
+    font-size: 10px;
+    font-weight: $font-medium;
+    border-radius: $radius-sm;
+    text-transform: uppercase;
+
+    &.normal {
+      background-color: rgba($success, 0.1);
+      color: $success-dark;
+    }
+
+    &.high, &.alert, &.elevated {
+      background-color: rgba($danger, 0.1);
+      color: $danger;
+    }
+
+    &.low {
+      background-color: rgba($warning, 0.1);
+      color: $warning-dark;
+    }
+  }
+}

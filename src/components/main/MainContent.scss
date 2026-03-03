@@ -1,0 +1,58 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.main-content {
+  @include flex(column, flex-start, stretch, $spacing-md);
+  @include custom-scrollbar;
+  flex: 1;
+  padding: $spacing-md;
+  overflow-y: auto;
+  background-color: $bg-secondary;
+
+  // Patient tabs should never shrink
+  > .patient-tabs {
+    flex-shrink: 0;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-md;
+    min-height: 180px; // Prevent rows from shrinking too small
+    flex-shrink: 0; // Don't let rows shrink when notes expand
+
+    > * {
+      min-width: 0;
+    }
+
+    @include responsive(lg) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  // Call Notes tile - constrain height so it scrolls internally
+  > .tile {
+    flex-shrink: 0;
+    max-height: 300px;
+    display: flex;
+    flex-direction: column;
+
+    .tile__content {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+
+      .call-notes__list {
+        flex: 1;
+        overflow-y: auto;
+        max-height: none; // Override the 400px max-height, let parent control
+      }
+    }
+  }
+
+  &__search {
+    flex: 1;
+    min-height: 400px;
+  }
+}

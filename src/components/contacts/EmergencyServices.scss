@@ -1,0 +1,61 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.emergency-services {
+  &__title {
+    font-size: $font-sm;
+    font-weight: $font-semibold;
+    color: $text-primary;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__buttons {
+    @include flex(column, flex-start, stretch, $spacing-sm);
+  }
+
+  &__btn {
+    @include flex(row, flex-start, center, $spacing-sm);
+    width: 100%;
+    padding: $spacing-sm $spacing-md;
+    border: none;
+    border-radius: $radius-md;
+    font-size: $font-sm;
+    font-weight: $font-medium;
+    cursor: pointer;
+    transition: all $transition-fast;
+    color: white;
+
+    &--ambulance {
+      background-color: $danger;
+
+      &:hover {
+        background-color: $danger-dark;
+      }
+    }
+
+    &--police {
+      background-color: $primary;
+
+      &:hover {
+        background-color: $primary-dark;
+      }
+    }
+
+    &--fire {
+      background-color: $warning;
+
+      &:hover {
+        background-color: $warning-dark;
+      }
+    }
+  }
+
+  &__number {
+    margin-left: auto;
+    padding: 2px $spacing-sm;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: $radius-sm;
+    font-size: $font-xs;
+    font-weight: $font-bold;
+  }
+}

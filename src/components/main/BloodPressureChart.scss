@@ -1,0 +1,71 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.bp-chart {
+  @include flex(row, flex-start, stretch, $spacing-sm);
+  height: 80px;
+
+  &__y-axis {
+    @include flex(column, space-between, flex-end);
+    width: 30px;
+    padding-right: $spacing-sm;
+    font-size: 10px;
+    color: $text-muted;
+  }
+
+  &__y-label {
+    line-height: 1;
+  }
+
+  &__container {
+    flex: 1;
+    @include flex(column);
+    min-width: 0;
+  }
+
+  &__svg {
+    flex: 1;
+    width: 100%;
+  }
+
+  &__grid-line {
+    stroke: $border-light;
+    stroke-width: 0.5;
+    stroke-dasharray: 2, 2;
+  }
+
+  &__line {
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    &--systolic {
+      stroke: $danger;
+    }
+
+    &--diastolic {
+      stroke: $primary;
+    }
+  }
+
+  &__point {
+    &--systolic {
+      fill: $danger;
+    }
+
+    &--diastolic {
+      fill: $primary;
+    }
+  }
+
+  &__x-axis {
+    @include flex(row, space-between, center);
+    padding-top: $spacing-xs;
+    font-size: 10px;
+    color: $text-muted;
+  }
+
+  &__x-label {
+    text-align: center;
+  }
+}

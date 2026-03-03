@@ -1,0 +1,255 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.patient-search {
+  @include flex(column, flex-start, stretch, $spacing-lg);
+  background-color: $bg-primary;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  height: 100%;
+
+  &__header {
+    @include flex(row, flex-start, center, $spacing-sm);
+    color: $text-primary;
+
+    h2 {
+      font-size: $font-lg;
+      font-weight: $font-semibold;
+      margin: 0;
+    }
+
+    svg {
+      color: $primary;
+    }
+  }
+
+  &__form {
+    @include flex(column, flex-start, stretch, $spacing-md);
+  }
+
+  &__fields {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-md;
+
+    @include responsive(md) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__field {
+    @include flex(column, flex-start, stretch, $spacing-xs);
+  }
+
+  &__label {
+    @include flex(row, flex-start, center, $spacing-xs);
+    font-size: $font-xs;
+    font-weight: $font-medium;
+    color: $text-secondary;
+
+    svg {
+      color: $gray-400;
+    }
+  }
+
+  &__input {
+    @include input-base;
+    width: 100%;
+    font-size: $font-md;
+  }
+
+  &__actions {
+    @include flex(row, flex-end, center, $spacing-sm);
+    padding-top: $spacing-sm;
+    border-top: 1px solid $border-light;
+  }
+
+  &__clear {
+    @include button-base;
+    padding: $spacing-sm $spacing-lg;
+    font-size: $font-md;
+    background-color: $gray-100;
+    color: $text-secondary;
+    border-radius: $radius-md;
+
+    &:hover:not(:disabled) {
+      background-color: $gray-200;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &__submit {
+    @include flex(row, center, center, $spacing-xs);
+    @include button-primary;
+    padding: $spacing-sm $spacing-lg;
+    font-size: $font-md;
+    white-space: nowrap;
+
+    .spinning {
+      animation: spin 1s linear infinite;
+    }
+  }
+
+  &__results {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 200px;
+  }
+
+  &__loading {
+    @include flex(column, center, center, $spacing-md);
+    padding: $spacing-xl;
+    color: $text-secondary;
+
+    .spinning {
+      animation: spin 1s linear infinite;
+      color: $primary;
+    }
+  }
+
+  &__empty {
+    @include flex(column, center, center, $spacing-sm);
+    padding: $spacing-xl;
+    color: $text-muted;
+    text-align: center;
+
+    svg {
+      color: $gray-300;
+    }
+
+    p {
+      margin: 0;
+      font-weight: $font-medium;
+      color: $text-secondary;
+    }
+
+    span {
+      font-size: $font-xs;
+    }
+  }
+
+  &__placeholder {
+    @include flex(column, center, center, $spacing-md);
+    padding: $spacing-xl * 2;
+    color: $text-muted;
+    text-align: center;
+
+    svg {
+      color: $gray-200;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: $font-lg;
+      font-weight: $font-semibold;
+      color: $text-secondary;
+    }
+
+    p {
+      margin: 0;
+      font-size: $font-sm;
+      max-width: 300px;
+    }
+  }
+
+  &__results-header {
+    padding: $spacing-sm 0;
+    font-size: $font-xs;
+    color: $text-muted;
+    border-bottom: 1px solid $border-light;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__results-list {
+    @include flex(column, flex-start, stretch, $spacing-xs);
+  }
+
+  &__result-item {
+    @include flex(row, flex-start, center, $spacing-md);
+    @include button-base;
+    width: 100%;
+    padding: $spacing-md;
+    background-color: $bg-secondary;
+    border-radius: $radius-md;
+    border: 1px solid transparent;
+    text-align: left;
+
+    &:hover {
+      background-color: $bg-tertiary;
+      border-color: $primary;
+    }
+  }
+
+  &__result-avatar {
+    @include flex(row, center, center);
+    width: 40px;
+    height: 40px;
+    border-radius: $radius-full;
+    background-color: $primary;
+    color: white;
+    font-weight: $font-semibold;
+    font-size: $font-md;
+    flex-shrink: 0;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__result-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__result-name {
+    @include flex(row, flex-start, center, $spacing-sm);
+    font-weight: $font-medium;
+    color: $text-primary;
+    font-size: $font-md;
+  }
+
+  &__result-age {
+    font-size: $font-xs;
+    color: $text-muted;
+    font-weight: $font-normal;
+  }
+
+  &__result-details {
+    @include flex(row, flex-start, center, $spacing-md);
+    margin-top: $spacing-xs;
+    flex-wrap: wrap;
+  }
+
+  &__result-detail {
+    @include flex(row, flex-start, center, $spacing-xs);
+    font-size: $font-xs;
+    color: $text-secondary;
+
+    svg {
+      color: $gray-400;
+    }
+  }
+
+  &__result-id {
+    font-size: $font-xs;
+    color: $text-muted;
+    font-family: monospace;
+    flex-shrink: 0;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,140 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.current-patient {
+  padding-bottom: $spacing-md;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-md;
+  }
+
+  &__label {
+    font-size: $font-xs;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  &__status {
+    padding: 2px $spacing-sm;
+    font-size: $font-xs;
+    font-weight: $font-medium;
+    background-color: $success;
+    border-radius: $radius-sm;
+    color: white;
+
+    &--waiting {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    &--hold {
+      background-color: $warning;
+    }
+
+    &--after-call {
+      background-color: $info;
+    }
+
+    &--idle {
+      background-color: $warning;
+    }
+  }
+
+  &__empty {
+    @include flex(column, center, center, $spacing-sm);
+    padding: $spacing-lg $spacing-md;
+    text-align: center;
+
+    &-icon {
+      @include flex-center;
+      width: 48px;
+      height: 48px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      margin-bottom: $spacing-sm;
+
+      svg {
+        color: rgba(255, 255, 255, 0.4);
+      }
+    }
+
+    &-text {
+      font-size: $font-sm;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 0;
+    }
+
+    &-subtext {
+      font-size: $font-xs;
+      color: rgba(255, 255, 255, 0.4);
+      margin: 0;
+    }
+  }
+
+  &__info {
+    @include flex(row, flex-start, flex-start, $spacing-md);
+    margin-bottom: $spacing-md;
+  }
+
+  &__avatar {
+    @include flex-center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: $radius-md;
+    font-size: $font-sm;
+    font-weight: $font-semibold;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: $radius-md;
+    }
+  }
+
+  &__details {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name {
+    font-size: $font-md;
+    font-weight: $font-semibold;
+    margin-bottom: 2px;
+    @include text-truncate;
+  }
+
+  &__meta,
+  &__device {
+    font-size: $font-xs;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 2px;
+  }
+
+  &__vitals {
+    @include flex(column, flex-start, stretch, $spacing-xs);
+  }
+
+  &__vital {
+    @include flex(row, flex-start, center, $spacing-sm);
+    font-size: $font-xs;
+
+    svg {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    &-label {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    &-value {
+      margin-left: auto;
+      font-weight: $font-medium;
+    }
+  }
+}

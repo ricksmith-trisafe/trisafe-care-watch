@@ -1,0 +1,100 @@
+// Colors
+$primary: #3b82f6;
+$primary-dark: #2563eb;
+$primary-light: #60a5fa;
+
+$success: #22c55e;
+$success-dark: #16a34a;
+$success-light: #4ade80;
+
+$warning: #f59e0b;
+$warning-dark: #d97706;
+
+$danger: #ef4444;
+$danger-dark: #dc2626;
+
+$info: #06b6d4;
+$info-dark: #0891b2;
+
+// Grays
+$gray-50: #f9fafb;
+$gray-100: #f3f4f6;
+$gray-200: #e5e7eb;
+$gray-300: #d1d5db;
+$gray-400: #9ca3af;
+$gray-500: #6b7280;
+$gray-600: #4b5563;
+$gray-700: #374151;
+$gray-800: #1f2937;
+$gray-900: #111827;
+
+// Semantic colors
+$bg-primary: #ffffff;
+$bg-secondary: $gray-50;
+$bg-tertiary: $gray-100;
+
+$text-primary: $gray-900;
+$text-secondary: $gray-600;
+$text-muted: $gray-400;
+
+$border-color: $gray-200;
+$border-light: $gray-100;
+
+// Status colors
+$status-active: $success;
+$status-alert: $danger;
+$status-warning: $warning;
+$status-offline: $gray-400;
+$status-elevated: $warning;
+
+// Sidebar - COMPACT
+$sidebar-width: 220px;
+$sidebar-bg: $gray-800;
+$sidebar-text: #ffffff;
+
+// Header - COMPACT
+$header-height: 44px;
+$header-bg: #ffffff;
+
+// Spacing - COMPACT
+$spacing-xs: 2px;
+$spacing-sm: 4px;
+$spacing-md: 8px;
+$spacing-lg: 12px;
+$spacing-xl: 16px;
+
+// Border radius - COMPACT
+$radius-sm: 3px;
+$radius-md: 5px;
+$radius-lg: 8px;
+$radius-xl: 10px;
+$radius-full: 9999px;
+
+// Shadows
+$shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+$shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+$shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+// Transitions
+$transition-fast: 150ms ease;
+$transition-normal: 200ms ease;
+$transition-slow: 300ms ease;
+
+// Font sizes - COMPACT
+$font-xs: 0.675rem;   // 10.8px
+$font-sm: 0.75rem;    // 12px
+$font-md: 0.8125rem;  // 13px
+$font-lg: 0.875rem;   // 14px
+$font-xl: 1rem;       // 16px
+$font-2xl: 1.125rem;  // 18px
+
+// Font weights
+$font-normal: 400;
+$font-medium: 500;
+$font-semibold: 600;
+$font-bold: 700;
+
+// Z-index
+$z-dropdown: 100;
+$z-modal: 9000;
+$z-tooltip: 9500;

@@ -1,0 +1,155 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.header {
+  @include flex-between;
+  height: $header-height;
+  padding: 0 $spacing-lg;
+  background-color: $header-bg;
+  border-bottom: 1px solid $border-color;
+
+  &__left {
+    @include flex(row, flex-start, center, $spacing-lg);
+  }
+
+  &__logo {
+    @include flex(row, flex-start, center, $spacing-sm);
+
+    &-icon {
+      width: 20px;
+      height: 20px;
+      color: $primary;
+    }
+
+    &-text {
+      font-size: $font-md;
+      font-weight: $font-bold;
+      color: $text-primary;
+    }
+  }
+
+  &__timers {
+    @include flex(row, flex-start, center, $spacing-md);
+  }
+
+  &__timer {
+    @include flex(row, flex-start, center, $spacing-sm);
+    padding: $spacing-xs $spacing-md;
+    border-radius: $radius-full;
+    font-size: $font-sm;
+    font-weight: $font-medium;
+
+    &-icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    &--call {
+      background-color: rgba($success, 0.1);
+      color: $success-dark;
+
+      .header__timer-icon {
+        animation: pulse 2s infinite;
+      }
+    }
+
+    &--hold {
+      background-color: rgba($warning, 0.15);
+      color: $warning-dark;
+
+      .header__timer-icon {
+        animation: pulse 1s infinite;
+      }
+    }
+
+    &--after-call {
+      background-color: rgba($info, 0.1);
+      color: $info-dark;
+    }
+
+    &--completed {
+      opacity: 0.7;
+
+      .header__timer-icon {
+        animation: none;
+      }
+    }
+  }
+
+  &__right {
+    @include flex(row, flex-end, center, $spacing-md);
+  }
+
+  &__alerts {
+    @include flex(row, flex-start, center, $spacing-sm);
+    padding: $spacing-xs $spacing-md;
+    background-color: rgba($danger, 0.1);
+    border: none;
+    border-radius: $radius-md;
+    color: $danger;
+    font-size: $font-sm;
+    font-weight: $font-medium;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba($danger, 0.15);
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &__settings {
+    @include button-ghost;
+    padding: $spacing-sm;
+    border-radius: $radius-md;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__user {
+    @include flex(row, flex-start, center, $spacing-sm);
+    padding-left: $spacing-md;
+    border-left: 1px solid $border-color;
+
+    &-avatar {
+      @include flex-center;
+      width: 28px;
+      height: 28px;
+      background-color: $primary;
+      color: white;
+      font-size: $font-xs;
+      font-weight: $font-semibold;
+      border-radius: $radius-full;
+    }
+
+    &-info {
+      @include flex(column);
+    }
+
+    &-name {
+      font-size: $font-sm;
+      font-weight: $font-medium;
+      color: $text-primary;
+    }
+
+    &-id {
+      font-size: $font-xs;
+      color: $text-muted;
+    }
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

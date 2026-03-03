@@ -1,0 +1,200 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.alarm-ack-modal {
+  @include flex(column, flex-start, stretch, $spacing-lg);
+  background-color: $bg-primary;
+  border-radius: $radius-lg;
+  padding: $spacing-xl;
+  max-width: 480px;
+  width: 90%;
+  box-shadow: $shadow-lg;
+  position: relative;
+
+  &__overlay {
+    @include flex(row, center, center);
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: $z-modal;
+    backdrop-filter: blur(2px);
+  }
+
+  &__close {
+    position: absolute;
+    top: $spacing-md;
+    right: $spacing-md;
+    background: none;
+    border: none;
+    color: $text-muted;
+    cursor: pointer;
+    padding: $spacing-xs;
+    border-radius: $radius-sm;
+    transition: all 0.2s;
+
+    &:hover {
+      color: $text-primary;
+      background-color: $gray-100;
+    }
+  }
+
+  &__header {
+    @include flex(row, flex-start, center, $spacing-md);
+  }
+
+  &__icon {
+    @include flex(row, center, center);
+    width: 48px;
+    height: 48px;
+    border-radius: $radius-full;
+    background-color: rgba($danger, 0.1);
+    color: $danger;
+    flex-shrink: 0;
+  }
+
+  &__title {
+    font-size: $font-xl;
+    font-weight: $font-semibold;
+    color: $text-primary;
+    margin: 0;
+  }
+
+  &__details {
+    @include flex(column, flex-start, stretch, $spacing-sm);
+    background-color: $gray-50;
+    border-radius: $radius-md;
+    padding: $spacing-md;
+  }
+
+  &__detail {
+    @include flex(row, space-between, center);
+    font-size: $font-sm;
+  }
+
+  &__detail-label {
+    color: $text-muted;
+  }
+
+  &__detail-value {
+    color: $text-primary;
+    font-weight: $font-medium;
+  }
+
+  &__form {
+    @include flex(column, flex-start, stretch, $spacing-md);
+  }
+
+  &__field {
+    @include flex(column, flex-start, stretch, $spacing-xs);
+  }
+
+  &__label {
+    font-size: $font-sm;
+    font-weight: $font-medium;
+    color: $text-primary;
+  }
+
+  &__required {
+    color: $danger;
+  }
+
+  &__select {
+    @include input-base;
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-md;
+    border-radius: $radius-md;
+    background-color: $bg-primary;
+    color: $text-primary;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+      border-color: $primary;
+      box-shadow: 0 0 0 3px rgba($primary, 0.1);
+    }
+  }
+
+  &__textarea {
+    @include input-base;
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-md;
+    border-radius: $radius-md;
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+
+    &:focus {
+      outline: none;
+      border-color: $primary;
+      box-shadow: 0 0 0 3px rgba($primary, 0.1);
+    }
+
+    &::placeholder {
+      color: $text-muted;
+    }
+  }
+
+  &__followup-notice {
+    font-size: $font-xs;
+    color: $warning;
+    font-style: italic;
+    margin-top: $spacing-xs;
+  }
+
+  &__loading {
+    @include flex(row, flex-start, center, $spacing-sm);
+    padding: $spacing-sm;
+    color: $text-muted;
+    font-size: $font-sm;
+  }
+
+  &__spinner {
+    animation: spin 1s linear infinite;
+  }
+
+  &__actions {
+    @include flex(row, flex-end, center, $spacing-md);
+    margin-top: $spacing-sm;
+  }
+
+  &__btn {
+    @include button-base;
+    @include flex(row, center, center, $spacing-xs);
+    padding: $spacing-sm $spacing-lg;
+    font-size: $font-md;
+    font-weight: $font-medium;
+    border-radius: $radius-md;
+
+    &--cancel {
+      background-color: $gray-100;
+      color: $text-primary;
+
+      &:hover:not(:disabled) {
+        background-color: $gray-200;
+      }
+    }
+
+    &--submit {
+      background-color: $success;
+      color: white;
+
+      &:hover:not(:disabled) {
+        background-color: $success-dark;
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
