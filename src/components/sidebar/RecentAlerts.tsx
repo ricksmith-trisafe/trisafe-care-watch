@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AlertTriangle, Heart, Bell, AlertOctagon, CheckCircle, Loader2 } from 'lucide-react';
-// import { useGetAlarmsQuery } from '../../services/telecareApi';
+import { useGetAlarmsQuery } from '../../services/telecareApi';
 import type { TelecareAlarm } from '../../services/telecareApi';
 import type { AlarmEscalationData } from '../../hooks/useSocket';
 import { AlarmAcknowledgeModal } from './AlarmAcknowledgeModal';
@@ -20,14 +20,10 @@ export const RecentAlerts = ({
   const [selectedAlarm, setSelectedAlarm] = useState<TelecareAlarm | null>(null);
   const [showAcknowledgeModal, setShowAcknowledgeModal] = useState(false);
 
-  // Alarm polling disabled
-  // const { data: alarms = [], isLoading, refetch } = useGetAlarmsQuery(
-  //   { acknowledged: false, limit: 10 },
-  //   { pollingInterval: 30000 } // Poll every 30 seconds
-  // );
-  const alarms: TelecareAlarm[] = [];
-  const isLoading = false;
-  const refetch = () => {};
+  const { data: alarms = [], isLoading, refetch } = useGetAlarmsQuery(
+    { acknowledged: false, limit: 10 },
+    { pollingInterval: 30000 }
+  );
 
   // Format time ago from ISO timestamp
   const formatTimeAgo = (timestamp: string) => {

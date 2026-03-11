@@ -42,6 +42,8 @@ export interface OutcomeCode {
   label: string;
   description: string;
   requires_followup: boolean;
+  sia_code?: string;
+  scaip_code?: string;
 }
 
 export interface AlarmListResponse {
