@@ -18,6 +18,6 @@ export const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Patient', 'Agent', 'Device', 'CallHistory', 'AllergyIntolerance', 'Condition', 'MedicationStatement', 'ClinicalSummary', 'TelecareAlarm', 'OutcomeCode', 'Vitals'],
+  tagTypes: ['Patient', 'Device', 'CallHistory', 'TelecareAlarm', 'OutcomeCode', 'Vitals'],
   endpoints: () => ({}),
 });

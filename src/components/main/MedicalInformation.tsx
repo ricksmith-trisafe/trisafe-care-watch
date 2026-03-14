@@ -1,13 +1,10 @@
 import { Edit, Printer, FileText, AlertTriangle, ClipboardList } from 'lucide-react';
 import { Tile, TileEmptyState } from '../common';
-import type { ClinicalSummary, AllergyIntolerance, Condition, MedicationStatement, MedicalInfo } from '../../types';
+import type { ClinicalSummary, AllergyIntolerance, Condition, MedicationStatement } from '../../types';
 import './MedicalInformation.scss';
 
 interface MedicalInformationProps {
   clinicalSummary?: ClinicalSummary | null;
-  // Legacy props for backward compatibility
-  medicalInfo?: MedicalInfo | null;
-  nhsNumber?: string;
   hasActivePatient?: boolean;
   onEdit?: () => void;
   isLoading?: boolean;
@@ -43,8 +40,6 @@ const getMedicationDisplay = (med: MedicationStatement) => ({
 
 export const MedicalInformation = ({
   clinicalSummary,
-  medicalInfo,
-  nhsNumber,
   hasActivePatient = false,
   onEdit,
   isLoading = false,
@@ -73,15 +68,9 @@ export const MedicalInformation = ({
     );
   }
 
-  // Use FHIR data if available, otherwise fall back to legacy
-  const hasFhirData = clinicalSummary && (
-    clinicalSummary.allergies.length > 0 ||
-    clinicalSummary.conditions.length > 0 ||
-    clinicalSummary.medications.length > 0
-  );
-
-  const displayNhsNumber = clinicalSummary?.nhsNumber || nhsNumber || medicalInfo?.nhsNumber;
-  const legacyInfo = clinicalSummary?.legacyMedicalInfo || medicalInfo || {};
+  const activeMedications = clinicalSummary?.medications.filter(m => m.status === 'active') || [];
+  const allergies = clinicalSummary?.allergies || [];
+  const conditions = clinicalSummary?.conditions || [];
 
   return (
     <Tile
@@ -95,15 +84,15 @@ export const MedicalInformation = ({
       <div className="medical-info__grid">
         <div className="medical-info__field">
           <span className="medical-info__label">Blood Type</span>
-          <span className="medical-info__value">{legacyInfo.bloodType || 'N/A'}</span>
+          <span className="medical-info__value">{clinicalSummary?.bloodType || 'N/A'}</span>
         </div>
         <div className="medical-info__field">
           <span className="medical-info__label">NHS Number</span>
-          <span className="medical-info__value">{displayNhsNumber || 'N/A'}</span>
+          <span className="medical-info__value">{clinicalSummary?.nhsNumber || 'N/A'}</span>
         </div>
         <div className="medical-info__field">
           <span className="medical-info__label">GP Practice</span>
-          <span className="medical-info__value">{legacyInfo.gpPractice || 'N/A'}</span>
+          <span className="medical-info__value">{clinicalSummary?.gpPractice || 'N/A'}</span>
         </div>
       </div>
 
@@ -111,7 +100,7 @@ export const MedicalInformation = ({
       <div className="medical-info__section">
         <span className="medical-info__section-label">Current Medications</span>
         <div className="medical-info__tags">
-          {hasFhirData && clinicalSummary?.medications.filter(m => m.status === 'active').map((med) => {
+          {activeMedications.map((med) => {
             const display = getMedicationDisplay(med);
             return (
               <span key={med._id} className="medical-info__tag medical-info__tag--medication">
@@ -120,15 +109,7 @@ export const MedicalInformation = ({
               </span>
             );
           })}
-          {!hasFhirData && legacyInfo.medications?.map((med, index) => (
-            <span key={index} className="medical-info__tag medical-info__tag--medication">
-              {med}
-            </span>
-          ))}
-          {(hasFhirData
-            ? clinicalSummary?.medications.filter(m => m.status === 'active').length === 0
-            : (!legacyInfo.medications || legacyInfo.medications.length === 0)
-          ) && (
+          {activeMedications.length === 0 && (
             <span className="medical-info__empty">No medications recorded</span>
           )}
         </div>
@@ -138,7 +119,7 @@ export const MedicalInformation = ({
       <div className="medical-info__section">
         <span className="medical-info__section-label">Allergies</span>
         <div className="medical-info__tags">
-          {hasFhirData && clinicalSummary?.allergies.map((allergy) => {
+          {allergies.map((allergy) => {
             const display = getAllergyDisplay(allergy);
             const isHighCriticality = display.criticality === 'high';
             return (
@@ -152,15 +133,7 @@ export const MedicalInformation = ({
               </span>
             );
           })}
-          {!hasFhirData && legacyInfo.allergies?.map((allergy, index) => (
-            <span key={index} className="medical-info__tag medical-info__tag--allergy">
-              {allergy}
-            </span>
-          ))}
-          {(hasFhirData
-            ? clinicalSummary?.allergies.length === 0
-            : (!legacyInfo.allergies || legacyInfo.allergies.length === 0)
-          ) && (
+          {allergies.length === 0 && (
             <span className="medical-info__empty">No allergies recorded</span>
           )}
         </div>
@@ -170,7 +143,7 @@ export const MedicalInformation = ({
       <div className="medical-info__section">
         <span className="medical-info__section-label">Medical Conditions</span>
         <div className="medical-info__tags">
-          {hasFhirData && clinicalSummary?.conditions.map((condition) => {
+          {conditions.map((condition) => {
             const display = getConditionDisplay(condition);
             const isActive = display.status === 'active';
             return (
@@ -184,15 +157,7 @@ export const MedicalInformation = ({
               </span>
             );
           })}
-          {!hasFhirData && legacyInfo.conditions?.map((condition, index) => (
-            <span key={index} className="medical-info__tag medical-info__tag--condition">
-              {condition}
-            </span>
-          ))}
-          {(hasFhirData
-            ? clinicalSummary?.conditions.length === 0
-            : (!legacyInfo.conditions || legacyInfo.conditions.length === 0)
-          ) && (
+          {conditions.length === 0 && (
             <span className="medical-info__empty">No conditions recorded</span>
           )}
         </div>

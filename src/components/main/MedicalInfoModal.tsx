@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { X, Plus, Trash2, AlertTriangle } from 'lucide-react';
 import type { ClinicalSummary, AllergyIntolerance, Condition, MedicationStatement, MedicalInfo } from '../../types';
 import './MedicalInfoModal.scss';
@@ -112,14 +112,17 @@ export const MedicalInfoModal = ({
   const [newCondition, setNewCondition] = useState({ name: '', status: 'active' as ConditionFormItem['status'] });
   const [newMedication, setNewMedication] = useState({ name: '', dosage: '', status: 'active' as MedicationFormItem['status'] });
 
+  const prevIsOpenRef = useRef(false);
+
   useEffect(() => {
-    if (isOpen) {
+    // Only initialize form data when modal opens (false → true), not on every prop change
+    if (isOpen && !prevIsOpenRef.current) {
       // Populate from FHIR clinical summary if available
       if (clinicalSummary) {
         setFormData({
-          bloodType: clinicalSummary.legacyMedicalInfo?.bloodType || '',
+          bloodType: clinicalSummary.bloodType || '',
           nhsNumber: clinicalSummary.nhsNumber || nhsNumber || '',
-          gpPractice: clinicalSummary.legacyMedicalInfo?.gpPractice || '',
+          gpPractice: clinicalSummary.gpPractice || '',
           allergies: clinicalSummary.allergies.map(allergyToFormItem),
           conditions: clinicalSummary.conditions.map(conditionToFormItem),
           medications: clinicalSummary.medications.map(medicationToFormItem),
@@ -162,6 +165,7 @@ export const MedicalInfoModal = ({
         });
       }
     }
+    prevIsOpenRef.current = isOpen;
   }, [isOpen, clinicalSummary, initialData, nhsNumber]);
 
   const handleSubmit = (e: React.FormEvent) => {

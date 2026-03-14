@@ -16,7 +16,7 @@ import {
 import type { Agent } from '../types';
 import { useAppDispatch } from '../store/hooks';
 import { setAgentStatus, setRegistered, setIsOnHold, resetCallTimers } from '../store/slices/callSlice';
-import { useUpdateAgentStatusMutation } from '../services/agentApi';
+import { updateAgentStatus } from '../store/slices/agentSlice';
 
 interface UseSipCallProps {
   credentials: Agent | null;
@@ -26,7 +26,7 @@ interface UseSipCallProps {
 
 export const useSipCall = ({ credentials, onIncomingCall, onCallEnded }: UseSipCallProps) => {
   const dispatch = useAppDispatch();
-  const [updateAgentStatus] = useUpdateAgentStatusMutation();
+
 
   const [registered, setLocalRegistered] = useState(false);
   const [incomingSession, setIncomingSession] = useState<Invitation | null>(null);
@@ -60,17 +60,17 @@ export const useSipCall = ({ credentials, onIncomingCall, onCallEnded }: UseSipC
   const updateStatus = useCallback(async (status: string) => {
     if (credentials) {
       try {
-        await updateAgentStatus({
+        await dispatch(updateAgentStatus({
           id: credentials._id,
           status: status as Agent['status'],
           username: credentials.username,
-        });
+        })).unwrap();
         dispatch(setAgentStatus(status as Agent['status']));
       } catch (err) {
         console.error('Failed to update agent status:', err);
       }
     }
-  }, [credentials, updateAgentStatus, dispatch]);
+  }, [credentials, dispatch]);
 
   const setupAudioStream = useCallback((session: Session) => {
     const handler = session.sessionDescriptionHandler as any;

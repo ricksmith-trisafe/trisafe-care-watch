@@ -5,12 +5,12 @@ import { LeftSidebar } from '../components/sidebar';
 import { MainContent } from '../components/main';
 import { RightSidebar } from '../components/contacts';
 import { EmergencyVideoPanel } from '../components/video/EmergencyVideoPanel';
-import { useAppSelector } from '../store/hooks';
+import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { useSipCall } from '../hooks/useSipCall';
 import { useCallTimer } from '../hooks/useCallTimer';
 import { useSocket, type AlarmEscalationData } from '../hooks/useSocket';
 import { useEmergencyVideo } from '../hooks/useEmergencyVideo';
-import { useLazyGetInactiveAgentQuery } from '../services/agentApi';
+import { fetchInactiveAgent } from '../store/slices/agentSlice';
 import { usePatientTabs } from '../hooks/usePatientTabs';
 import { useDevices } from '../hooks/useDevices';
 import { usePatientCommunications } from '../hooks/usePatientCommunications';
@@ -22,12 +22,11 @@ import type { QuickReference } from '../types';
 import './Dashboard.scss';
 
 export const Dashboard = () => {
+  const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
   const { agentStatus, currentCallId } = useAppSelector((state) => state.call);
   const patientDataCache = useAppSelector((state) => state.patient.patientDataCache);
-
-  // Agent credentials
-  const [getInactiveAgent, { data: agentCredentials }] = useLazyGetInactiveAgentQuery();
+  const agentCredentials = useAppSelector((state) => state.agent.credentials);
 
   // Call timer hook
   const { activeCallTime, totalHoldTime, afterCallTime, isOnHold: timerIsOnHold } = useCallTimer();
@@ -48,7 +47,9 @@ export const Dashboard = () => {
   // Get current patient's cached data from Redux
   const currentPatientData = currentPatient?._id ? patientDataCache[currentPatient._id] : null;
   const callNotes = currentPatientData?.callNotes || [];
-  const clinicalSummary = currentPatientData?.clinicalSummary || null;
+  const clinicalSummary = useAppSelector((state) =>
+    currentPatient?._id ? state.clinical.summaryCache[currentPatient._id] : null
+  ) || null;
   const hasAddedNoteThisCall = currentPatientData?.hasAddedNoteThisCall || false;
 
   // Devices hook
@@ -148,9 +149,9 @@ export const Dashboard = () => {
   useEffect(() => {
     if (!hasFetchedAgent.current) {
       hasFetchedAgent.current = true;
-      getInactiveAgent();
+      dispatch(fetchInactiveAgent());
     }
-  }, [getInactiveAgent]);
+  }, [dispatch]);
 
   // Load patient communications (uses Redux internally)
   usePatientCommunications();

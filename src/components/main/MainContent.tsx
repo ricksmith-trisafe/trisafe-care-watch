@@ -10,15 +10,17 @@ import { MedicalInfoModal } from './MedicalInfoModal';
 import type { ClinicalFormData } from './MedicalInfoModal';
 import { CallNotes } from './CallNotes';
 import { PatientSearch } from './PatientSearch';
+import { useAppDispatch } from '../../store/hooks';
 import {
-  useCreateAllergyMutation,
-  useDeleteAllergyMutation,
-  useCreateConditionMutation,
-  useDeleteConditionMutation,
-  useCreateMedicationMutation,
-  useDeleteMedicationMutation,
-} from '../../services/clinicalApi';
-import { useUpdateMedicalInfoMutation, useUpdatePatientMutation } from '../../services/patientApi';
+  updateMedicalInfo,
+  createAllergy,
+  deleteAllergy,
+  createCondition,
+  deleteCondition,
+  createMedication,
+  deleteMedication,
+} from '../../store/slices/clinicalSlice';
+import { useUpdatePatientMutation } from '../../services/patientApi';
 import type { Patient, Vitals, SleepSummary, ActivitySummary, EcgSummary, ClinicalSummary, CallNote } from '../../types';
 import './MainContent.scss';
 
@@ -67,20 +69,13 @@ export const MainContent = ({
   onRefreshClinicalSummary,
   onPatientUpdate,
 }: MainContentProps) => {
+  const dispatch = useAppDispatch();
   const [noteInput, setNoteInput] = useState('');
   const [isMedicalModalOpen, setIsMedicalModalOpen] = useState(false);
   const [isPatientModalOpen, setIsPatientModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isSavingPatient, setIsSavingPatient] = useState(false);
 
-  // FHIR mutations
-  const [createAllergy] = useCreateAllergyMutation();
-  const [deleteAllergy] = useDeleteAllergyMutation();
-  const [createCondition] = useCreateConditionMutation();
-  const [deleteCondition] = useDeleteConditionMutation();
-  const [createMedication] = useCreateMedicationMutation();
-  const [deleteMedication] = useDeleteMedicationMutation();
-  const [updateMedicalInfo] = useUpdateMedicalInfoMutation();
   const [updatePatient] = useUpdatePatientMutation();
 
   const currentPatient = patients.find((p) => p.id === currentPatientId)?.patient;
@@ -169,21 +164,21 @@ export const MainContent = ({
 
     try {
       // Update legacy medical info (blood type, NHS number, GP practice)
-      await updateMedicalInfo({
+      await dispatch(updateMedicalInfo({
         patientId: currentPatient._id,
         data: {
           bloodType: formData.bloodType,
           nhsNumber: formData.nhsNumber,
           gpPractice: formData.gpPractice,
         },
-      }).unwrap();
+      })).unwrap();
 
       // Process allergies
       for (const allergy of formData.allergies) {
         if (allergy.toDelete && allergy._id) {
-          await deleteAllergy(allergy._id).unwrap();
+          await dispatch(deleteAllergy(allergy._id)).unwrap();
         } else if (allergy.isNew && !allergy.toDelete) {
-          await createAllergy({
+          await dispatch(createAllergy({
             code: { text: allergy.name },
             patient: { reference: patientRef, display: patientDisplay },
             criticality: allergy.criticality,
@@ -195,16 +190,16 @@ export const MainContent = ({
                 display: 'Active',
               }],
             },
-          }).unwrap();
+          })).unwrap();
         }
       }
 
       // Process conditions
       for (const condition of formData.conditions) {
         if (condition.toDelete && condition._id) {
-          await deleteCondition(condition._id).unwrap();
+          await dispatch(deleteCondition(condition._id)).unwrap();
         } else if (condition.isNew && !condition.toDelete) {
-          await createCondition({
+          await dispatch(createCondition({
             code: { text: condition.name },
             subject: { reference: patientRef, display: patientDisplay },
             clinicalStatus: {
@@ -214,30 +209,30 @@ export const MainContent = ({
                 display: condition.status === 'active' ? 'Active' : 'Resolved',
               }],
             },
-          }).unwrap();
+          })).unwrap();
         }
       }
 
       // Process medications
       for (const med of formData.medications) {
         if (med.toDelete && med._id) {
-          await deleteMedication(med._id).unwrap();
+          await dispatch(deleteMedication(med._id)).unwrap();
         } else if (med.isNew && !med.toDelete) {
-          await createMedication({
+          await dispatch(createMedication({
             medicationCodeableConcept: { text: med.name },
             subject: { reference: patientRef, display: patientDisplay },
             status: med.status,
             dosage: med.dosage ? [{ text: med.dosage }] : undefined,
-          }).unwrap();
+          })).unwrap();
         }
       }
 
-      // Refresh clinical summary
+      // Close modal first, then refresh so the useEffect doesn't reset form
+      setIsMedicalModalOpen(false);
+
       if (onRefreshClinicalSummary) {
         onRefreshClinicalSummary();
       }
-
-      setIsMedicalModalOpen(false);
     } catch (error) {
       console.error('Error saving medical info:', error);
     } finally {

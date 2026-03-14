@@ -2,8 +2,10 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import storage from 'redux-persist/lib/storage/session'; // Use sessionStorage
 import { api } from '../services/api';
+import agentReducer from './slices/agentSlice';
 import authReducer from './slices/authSlice';
 import callReducer from './slices/callSlice';
+import clinicalReducer from './slices/clinicalSlice';
 import patientReducer from './slices/patientSlice';
 
 // Persist config for call slice - exclude non-serializable fields
@@ -30,8 +32,10 @@ const patientPersistConfig = {
 
 const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,
+  agent: agentReducer,
   auth: persistReducer(authPersistConfig, authReducer),
   call: persistReducer(callPersistConfig, callReducer),
+  clinical: clinicalReducer,
   patient: persistReducer(patientPersistConfig, patientReducer),
 });
 

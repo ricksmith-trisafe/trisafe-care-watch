@@ -1,6 +1,6 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
-import { useLazyGetClinicalSummaryQuery } from '../services/clinicalApi';
+import { fetchClinicalSummary } from '../store/slices/clinicalSlice';
 import { updatePatientData } from '../store/slices/patientSlice';
 
 export interface UseClinicalSummaryLoaderReturn {
@@ -15,7 +15,7 @@ export interface UseClinicalSummaryLoaderReturn {
 export const useClinicalSummaryLoader = (): UseClinicalSummaryLoaderReturn => {
   const dispatch = useAppDispatch();
   const currentPatient = useAppSelector((state) => state.patient.currentPatient);
-  const [getClinicalSummary, { isFetching: isClinicalLoading }] = useLazyGetClinicalSummaryQuery();
+  const isLoading = useAppSelector((state) => state.clinical.isLoading);
 
   const loadedPatientsRef = useRef<Set<string>>(new Set());
 
@@ -29,12 +29,11 @@ export const useClinicalSummaryLoader = (): UseClinicalSummaryLoaderReturn => {
 
     const loadData = async () => {
       try {
-        const clinicalSummary = await getClinicalSummary(patient._id).unwrap();
+        const result = await dispatch(fetchClinicalSummary(patient._id)).unwrap();
         dispatch(updatePatientData({
           patientId: patient._id,
           updates: {
-            clinicalSummary,
-            personalContacts: clinicalSummary.contacts || [],
+            personalContacts: result.data.contacts || [],
           },
         }));
       } catch (err) {
@@ -49,21 +48,20 @@ export const useClinicalSummaryLoader = (): UseClinicalSummaryLoaderReturn => {
   const refreshClinicalSummary = useCallback(async () => {
     if (!currentPatient?._id) return;
     try {
-      const clinicalSummary = await getClinicalSummary(currentPatient._id).unwrap();
+      const result = await dispatch(fetchClinicalSummary(currentPatient._id)).unwrap();
       dispatch(updatePatientData({
         patientId: currentPatient._id,
         updates: {
-          clinicalSummary,
-          personalContacts: clinicalSummary.contacts || [],
+          personalContacts: result.data.contacts || [],
         },
       }));
     } catch (err) {
       console.error('Failed to refresh clinical data:', err);
     }
-  }, [currentPatient, getClinicalSummary, dispatch]);
+  }, [currentPatient, dispatch]);
 
   return {
-    isClinicalLoading,
+    isClinicalLoading: isLoading,
     refreshClinicalSummary,
   };
 };

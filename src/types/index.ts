@@ -374,9 +374,11 @@ export interface MedicationStatement {
 export interface ClinicalSummary {
   patient: Patient;
   nhsNumber: string | null;
+  bloodType: string | null;
+  gpPractice: string | null;
+  gpPhone: string | null;
   allergies: AllergyIntolerance[];
   conditions: Condition[];
   medications: MedicationStatement[];
   contacts: RelatedPerson[];
-  legacyMedicalInfo: MedicalInfo | null;
 }

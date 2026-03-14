@@ -3,13 +3,12 @@
  * Manages patient tabs, current patient selection, and per-patient cached data
  */
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { Patient, CallNote, RelatedPerson, ClinicalSummary } from '../../types';
+import type { Patient, CallNote, RelatedPerson } from '../../types';
 
 // Per-patient cached data
 export interface PatientData {
   callNotes: CallNote[];
   personalContacts: RelatedPerson[];
-  clinicalSummary: ClinicalSummary | null;
   hasAddedNoteThisCall: boolean;
   fhirCallId: string | null;
 }
@@ -35,7 +34,6 @@ const initialState: PatientState = {
 const createEmptyPatientData = (): PatientData => ({
   callNotes: [],
   personalContacts: [],
-  clinicalSummary: null,
   hasAddedNoteThisCall: false,
   fhirCallId: null,
 });

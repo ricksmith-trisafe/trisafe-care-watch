@@ -24,20 +24,6 @@ interface PatientSearchParams {
   postcode?: string;
 }
 
-export interface MedicalInfoUpdateData {
-  bloodType?: string;
-  nhsNumber?: string;
-  gpPractice?: string;
-  medications?: string[];
-  allergies?: string[];
-  conditions?: string[];
-}
-
-interface MedicalInfoUpdateResponse {
-  success: boolean;
-  data: Patient;
-}
-
 export interface PatientUpdateData {
   name?: Patient['name'];
   telecom?: Patient['telecom'];
@@ -80,14 +66,6 @@ export const patientApi = api.injectEndpoints({
       },
       providesTags: ['Patient'],
     }),
-    updateMedicalInfo: builder.mutation<MedicalInfoUpdateResponse, { patientId: string; data: MedicalInfoUpdateData }>({
-      query: ({ patientId, data }) => ({
-        url: `/patients/${patientId}/medical-info`,
-        method: 'PATCH',
-        body: data,
-      }),
-      invalidatesTags: (_, __, { patientId }) => [{ type: 'Patient', id: patientId }],
-    }),
     updatePatient: builder.mutation<Patient, { patientId: string; data: PatientUpdateData }>({
       query: ({ patientId, data }) => ({
         url: `/patients/${patientId}`,
@@ -118,7 +96,6 @@ export const {
   useLazyGetPatientByIdQuery,
   useLazySearchPatientsQuery,
   useLazyGetRelatedPersonsQuery,
-  useUpdateMedicalInfoMutation,
   useUpdatePatientMutation,
   useTriggerEmergencyCallMutation,
 } = patientApi;

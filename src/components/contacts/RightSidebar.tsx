@@ -1,5 +1,4 @@
 import { useAppSelector } from '../../store/hooks';
-import { useGetClinicalSummaryQuery } from '../../services/clinicalApi';
 import { ContactsList } from './ContactsList';
 import { EmergencyServices } from './EmergencyServices';
 import { QuickReference } from './QuickReference';
@@ -19,7 +18,9 @@ export const RightSidebar = ({
 }: RightSidebarProps) => {
   const currentPatient = useAppSelector((state) => state.patient.currentPatient);
   const patientId = currentPatient?._id;
-  const { data: clinicalSummary } = useGetClinicalSummaryQuery(patientId!, { skip: !patientId });
+  const clinicalSummary = useAppSelector((state) =>
+    patientId ? state.clinical.summaryCache[patientId] : undefined
+  );
   const contacts = clinicalSummary?.contacts || [];
 
   return (
