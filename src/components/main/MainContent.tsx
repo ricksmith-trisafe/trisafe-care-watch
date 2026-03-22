@@ -8,6 +8,7 @@ import { LiveVitals } from './LiveVitals';
 import { MedicalInformation } from './MedicalInformation';
 import { MedicalInfoModal } from './MedicalInfoModal';
 import type { ClinicalFormData } from './MedicalInfoModal';
+import { HealthReportModal } from './HealthReportModal';
 import { CallNotes } from './CallNotes';
 import { PatientSearch } from './PatientSearch';
 import { useAppDispatch } from '../../store/hooks';
@@ -73,6 +74,7 @@ export const MainContent = ({
   const [noteInput, setNoteInput] = useState('');
   const [isMedicalModalOpen, setIsMedicalModalOpen] = useState(false);
   const [isPatientModalOpen, setIsPatientModalOpen] = useState(false);
+  const [isHealthReportOpen, setIsHealthReportOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isSavingPatient, setIsSavingPatient] = useState(false);
 
@@ -258,7 +260,7 @@ export const MainContent = ({
           </div>
 
           <div className="main-content__row">
-            <LiveVitals vitals={vitals} sleep={sleep} activity={activity} ecg={ecg} hasActivePatient={true} isLoading={isVitalsLoading} />
+            <LiveVitals vitals={vitals} sleep={sleep} activity={activity} ecg={ecg} hasActivePatient={true} isLoading={isVitalsLoading} onViewHealthReport={() => setIsHealthReportOpen(true)} />
             <MedicalInformation
               clinicalSummary={clinicalSummary}
               hasActivePatient={true}
@@ -282,6 +284,13 @@ export const MainContent = ({
             onSave={handleSavePatientDetails}
             patient={currentPatient}
             isLoading={isSavingPatient}
+          />
+
+          <HealthReportModal
+            isOpen={isHealthReportOpen}
+            onClose={() => setIsHealthReportOpen(false)}
+            patientEmail={currentPatient.telecom?.find((t) => t.system === 'email')?.value || ''}
+            patientName={`${currentPatient.name?.[0]?.given?.[0] || ''} ${currentPatient.name?.[0]?.family || ''}`.trim()}
           />
 
           <CallNotes

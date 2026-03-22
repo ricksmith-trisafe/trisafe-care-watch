@@ -1,4 +1,4 @@
-import { Heart, Moon, Footprints, HeartPulse, History, Activity, type LucideIcon } from 'lucide-react';
+import { Heart, Moon, Footprints, HeartPulse, FileText, Activity, type LucideIcon } from 'lucide-react';
 import { Tile, TileEmptyState } from '../common';
 import type { Vitals, SleepSummary, ActivitySummary, EcgSummary } from '../../types';
 import './LiveVitals.scss';
@@ -10,6 +10,7 @@ interface LiveVitalsProps {
   ecg: EcgSummary | null;
   hasActivePatient?: boolean;
   isLoading?: boolean;
+  onViewHealthReport?: () => void;
 }
 
 interface VitalCardProps {
@@ -65,7 +66,7 @@ const getEcgStatus = (classification: string) => {
   return 'elevated';
 };
 
-export const LiveVitals = ({ vitals, sleep, activity, ecg, /* hasActivePatient = false, */ isLoading = false }: LiveVitalsProps) => {
+export const LiveVitals = ({ vitals, sleep, activity, ecg, /* hasActivePatient = false, */ isLoading = false, onViewHealthReport }: LiveVitalsProps) => {
   // if (!hasActivePatient) {
   //   return (
   //     <Tile title="Live Vitals Monitoring" icon={Activity}>
@@ -105,7 +106,7 @@ export const LiveVitals = ({ vitals, sleep, activity, ecg, /* hasActivePatient =
       icon={Activity}
       className="live-vitals"
       actions={[
-        { label: 'View History', icon: History },
+        { label: 'View Health Report', icon: FileText, onClick: onViewHealthReport },
       ]}
     >
       <div className="live-vitals__grid">

@@ -1,0 +1,245 @@
+@use '../../styles/variables' as *;
+
+.health-report-modal {
+  &__overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: $z-modal;
+  }
+
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  background: $bg-primary;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-lg, 0 0 0 1px $border-color;
+  z-index: $z-modal + 1;
+  overflow: hidden;
+
+  &--dragging {
+    user-select: none;
+    cursor: grabbing;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-md $spacing-lg;
+    background: $gray-50;
+    border-bottom: 1px solid $border-color;
+    cursor: grab;
+    flex-shrink: 0;
+
+    .health-report-modal--dragging & {
+      cursor: grabbing;
+    }
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    font-size: $font-md;
+    font-weight: $font-semibold;
+    color: $text-primary;
+
+    svg {
+      color: $primary;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  &__days {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    font-size: $font-sm;
+    color: $text-secondary;
+    cursor: default;
+
+    select {
+      padding: 2px $spacing-sm;
+      border: 1px solid $border-color;
+      border-radius: $radius-sm;
+      font-size: $font-sm;
+      background: $bg-primary;
+      cursor: pointer;
+
+      &:focus {
+        outline: none;
+        border-color: $primary;
+      }
+    }
+  }
+
+  &__refresh,
+  &__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: $radius-sm;
+    background: transparent;
+    color: $text-secondary;
+    cursor: pointer;
+
+    &:hover {
+      background: $gray-200;
+      color: $text-primary;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &__body {
+    flex: 1;
+    overflow-y: auto;
+    padding: $spacing-lg;
+  }
+
+  &__loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-md;
+    height: 100%;
+    color: $text-secondary;
+    font-size: $font-md;
+
+    .spin {
+      animation: spin 1s linear infinite;
+    }
+  }
+
+  &__error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-md;
+    height: 100%;
+    color: $danger;
+    font-size: $font-md;
+
+    button {
+      padding: $spacing-sm $spacing-lg;
+      border: 1px solid $danger;
+      border-radius: $radius-sm;
+      background: transparent;
+      color: $danger;
+      cursor: pointer;
+      font-size: $font-sm;
+
+      &:hover {
+        background: rgba($danger, 0.05);
+      }
+    }
+  }
+
+  &__content {
+    font-size: $font-sm;
+    line-height: 1.6;
+    color: $text-primary;
+
+    h1 {
+      font-size: $font-xl;
+      font-weight: $font-bold;
+      margin: 0 0 $spacing-lg;
+      color: $text-primary;
+      border-bottom: 2px solid $primary;
+      padding-bottom: $spacing-sm;
+    }
+
+    h2 {
+      font-size: $font-lg;
+      font-weight: $font-semibold;
+      margin: $spacing-xl 0 $spacing-md;
+      color: $text-primary;
+    }
+
+    h3 {
+      font-size: $font-md;
+      font-weight: $font-semibold;
+      margin: $spacing-lg 0 $spacing-sm;
+      color: $text-secondary;
+    }
+
+    p {
+      margin: $spacing-sm 0;
+    }
+
+    ul, ol {
+      margin: $spacing-sm 0;
+      padding-left: $spacing-xl;
+    }
+
+    li {
+      margin: $spacing-xs 0;
+    }
+
+    strong {
+      font-weight: $font-semibold;
+      color: $text-primary;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: $spacing-md 0;
+      font-size: $font-xs;
+
+      th, td {
+        padding: $spacing-sm $spacing-md;
+        border: 1px solid $border-color;
+        text-align: left;
+      }
+
+      th {
+        background: $gray-50;
+        font-weight: $font-semibold;
+      }
+
+      tr:nth-child(even) {
+        background: $gray-50;
+      }
+    }
+  }
+
+  &__resize {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    cursor: nwse-resize;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 3px;
+      right: 3px;
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid $gray-300;
+      border-bottom: 2px solid $gray-300;
+    }
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
