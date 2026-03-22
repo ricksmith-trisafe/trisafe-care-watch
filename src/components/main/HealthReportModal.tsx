@@ -17,6 +17,8 @@ const DEFAULT_DAYS = 30;
 
 export const HealthReportModal = ({ isOpen, onClose, patientEmail, patientName }: HealthReportModalProps) => {
   const [report, setReport] = useState<string | null>(null);
+  const [isCached, setIsCached] = useState(false);
+  const [generatedAt, setGeneratedAt] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [days, setDays] = useState(DEFAULT_DAYS);
@@ -43,7 +45,7 @@ export const HealthReportModal = ({ isOpen, onClose, patientEmail, patientName }
     }
   }, [isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const fetchReport = useCallback(async (numDays: number) => {
+  const fetchReport = useCallback(async (numDays: number, refresh = false) => {
     setIsLoading(true);
     setError(null);
 
@@ -52,10 +54,12 @@ export const HealthReportModal = ({ isOpen, onClose, patientEmail, patientName }
     start.setDate(start.getDate() - numDays);
     const startDate = start.toISOString().split('T')[0];
 
+    const refreshParam = refresh ? '&refresh=true' : '';
+
     try {
       const token = await getAccessToken();
       const res = await fetch(
-        `${apiConfig.baseUrl}/withings/health-report?startDate=${startDate}&endDate=${endDate}&userEmail=${encodeURIComponent(patientEmail)}`,
+        `${apiConfig.baseUrl}/withings/health-report?startDate=${startDate}&endDate=${endDate}&userEmail=${encodeURIComponent(patientEmail)}${refreshParam}`,
         { headers: { Authorization: `Bearer ${token}` } },
       );
 
@@ -66,6 +70,8 @@ export const HealthReportModal = ({ isOpen, onClose, patientEmail, patientName }
 
       const data = await res.json();
       setReport(data.data.report);
+      setIsCached(data.cached ?? false);
+      setGeneratedAt(data.data.generatedAt ?? null);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to generate report');
     } finally {
@@ -84,6 +90,8 @@ export const HealthReportModal = ({ isOpen, onClose, patientEmail, patientName }
   useEffect(() => {
     if (!isOpen) {
       setReport(null);
+      setIsCached(false);
+      setGeneratedAt(null);
       setError(null);
       setDays(DEFAULT_DAYS);
     }
@@ -157,9 +165,9 @@ export const HealthReportModal = ({ isOpen, onClose, patientEmail, patientName }
             </label>
             <button
               className="health-report-modal__refresh"
-              onClick={() => fetchReport(days)}
+              onClick={() => fetchReport(days, true)}
               disabled={isLoading}
-              title="Regenerate report"
+              title="Regenerate report (bypasses cache)"
             >
               <RefreshCw size={14} />
             </button>
@@ -183,9 +191,17 @@ export const HealthReportModal = ({ isOpen, onClose, patientEmail, patientName }
             </div>
           )}
           {report && !isLoading && (
-            <div className="health-report-modal__content">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{report}</ReactMarkdown>
-            </div>
+            <>
+              {isCached && (
+                <div className="health-report-modal__cached-badge">
+                  Cached report{generatedAt ? ` — generated ${new Date(generatedAt).toLocaleDateString()}` : ''}
+                  <button onClick={() => fetchReport(days, true)}>Regenerate</button>
+                </div>
+              )}
+              <div className="health-report-modal__content">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{report}</ReactMarkdown>
+              </div>
+            </>
           )}
         </div>
 

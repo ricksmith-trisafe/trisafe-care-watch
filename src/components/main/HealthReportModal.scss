@@ -149,6 +149,34 @@
     }
   }
 
+  &__cached-badge {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    padding: $spacing-sm $spacing-lg;
+    margin-bottom: $spacing-md;
+    background: rgba($info, 0.08);
+    border: 1px solid rgba($info, 0.2);
+    border-radius: $radius-sm;
+    font-size: $font-xs;
+    color: $info-dark;
+
+    button {
+      margin-left: auto;
+      padding: 2px $spacing-md;
+      border: 1px solid $info;
+      border-radius: $radius-sm;
+      background: transparent;
+      color: $info-dark;
+      font-size: $font-xs;
+      cursor: pointer;
+
+      &:hover {
+        background: rgba($info, 0.1);
+      }
+    }
+  }
+
   &__content {
     font-size: $font-sm;
     line-height: 1.6;
